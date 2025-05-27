@@ -1,0 +1,61 @@
+# Paths
+data_dir: "data/"
+raw_data_dir: "data/raw/"
+processed_data_dir: "data/processed/"
+annotations_dir: "data/annotations/"
+output_dir: "outputs/"
+experiment_name: "agrifusionnet_v1"
+
+# Dataset parameters
+img_size: [640, 640] # height, width
+num_classes_detection: 1 # e.g., for leaf detection
+num_classes_segmentation: 1 # e.g., for leaf segmentation
+num_classes_classification: 9 # e.g., Bottle Gourd 9-class problem
+sensor_feature_dim: 4 # Example: temp, moisture, pH, water_level
+
+# Model Hyperparameters
+backbone:
+  mobilevit_variant: "s" # small, medium, large - to be defined or use timm
+  efficientnet_variant: "b0" # b0-b7 - to be defined or use timm
+  nas_optimized: true # Set to false to use fixed variants if NAS not run
+
+neck:
+  deformable_conv_groups: 1 # Or other suitable value
+
+fusion:
+  sensor_mlp_hidden_dims: [64, 128] # Hidden dims for MLP processing sensor data
+  attention_dropout: 0.1
+
+decoder:
+  # Specifics for detection, segmentation, classification heads
+
+# Training parameters
+batch_size: 8
+learning_rate: 0.001
+epochs: 100
+optimizer: "AdamW" # Adam, SGD, AdamW
+lr_scheduler: "CosineAnnealingLR" # StepLR, ReduceLROnPlateau
+weight_decay: 0.0005
+loss_weights:
+  detection: 1.0
+  segmentation: 1.0
+  classification: 1.0
+  energy: 0.01 # Weight for L_energy
+
+# Auxiliary parameters
+dynamic_pruning_threshold: 0.001
+use_synthetic_augmentation: false # Flag to enable/disable
+
+# YOLOv8 Baseline (if used for comparison or pretraining)
+yolov8_model_name: "yolov8m.pt"
+
+# MQTT Broker Settings
+mqtt_broker_address: "localhost"
+mqtt_broker_port: 1883
+mqtt_uav_topic: "agri/uav/telemetry"
+mqtt_sensor_topic_prefix: "agri/sensor/" # e.g., agri/sensor/node1/data
+
+# Other
+seed: 42
+device: "cuda" # "cuda" or "cpu"
+num_workers: 4

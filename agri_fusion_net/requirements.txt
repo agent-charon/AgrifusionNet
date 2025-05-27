@@ -1,0 +1,17 @@
+
+**`├── requirements.txt`**
+```txt
+torch>=1.10.0
+torchvision>=0.11.0
+torchaudio # if needed
+numpy
+pyyaml
+opencv-python
+Pillow
+scikit-learn # for metrics
+pandas # for CSV handling
+paho-mqtt # for MQTT communication
+ultralytics # For YOLOv8 components/baseline (if used directly)
+# Add other specific libraries like timm (for EfficientNet/MobileViT if not custom)
+# Add libraries for NAS if using a framework (e.g., NNI, Optuna)
+# Add libraries for deformable convolutions if not implementing from scratch (e.g., mmcv-full if compatible)
